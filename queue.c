@@ -2,37 +2,26 @@
 #include <stdlib.h>
 #include "queue.h"
 
-struct process {
-  int pid;
-  Process *next;
-};
-
-struct queue {
-  Process *head;
-  Process *tail;
-  int size;
-};
-
-Queue create() {
-  Queue qu = malloc(sizeof(struct queue));
+Queue* create() {
+  Queue *qu = malloc(sizeof(struct queue));
   qu->head = NULL;
   qu->tail = NULL;
   qu->size = 0;
   return qu;
 }
 
-void delete(Queue qu) {
+void delete(Queue *qu) {
   while(!is_empty(qu)) {
     dequeue(qu);
   }
   free(qu);
 }
 
-int is_empty(Queue qu) {
+int is_empty(Queue *qu) {
   return qu->size == 0;
 }
 
-void enqueue(Queue qu, int pid) {
+void enqueue(Queue *qu, int pid) {
   Process *new_proc = malloc(sizeof(struct process));
   new_proc->pid = pid;
   new_proc->next = NULL;
@@ -47,7 +36,7 @@ void enqueue(Queue qu, int pid) {
   qu->size++;
 }
 
-int dequeue(Queue qu) {
+int dequeue(Queue *qu) {
   int pid;
   if(is_empty(qu)) {
     printf("Queue is empty.\n");
@@ -62,10 +51,10 @@ int dequeue(Queue qu) {
   return pid;
 }
 
-int peek(Queue qu) {
+int peek(Queue *qu) {
   if(is_empty(qu)) {
     printf("Queue is empty.\n");
-    exit(-1);
+    return -1;
   }
   else {
     return qu->head->pid;

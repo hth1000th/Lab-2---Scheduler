@@ -1,6 +1,5 @@
 typedef struct process {
   int pid;
-  int target_time;
   struct process *next;
 } Process;
 

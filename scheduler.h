@@ -1,5 +1,6 @@
-int stop(); // stop the current running process if it exitsts, return its pid
-void ready(int pid); // enqueue pid to ready queue;
+int running(Queue *ready);
+int stop(int current_pid); // stop the current running process if it exitsts, return its pid
+void ready(Queue *ready, int pid); // enqueue pid to ready queue;
 // stop(), calculate absolute time from relative time, add pid to wait list,
 // run_next()
 void sleep(int pid, int abs_time);

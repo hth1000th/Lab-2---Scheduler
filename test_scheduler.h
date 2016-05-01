@@ -6,3 +6,4 @@ void test_block();
 void test_run_next();
 void test_tick();
 void test_check_awaken();
+void test_switch();

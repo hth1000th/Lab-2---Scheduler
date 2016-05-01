@@ -4,6 +4,7 @@
 
 #include "queue.h"
 #include "scheduler.h"
+#include "switch.h"
 #include <test_scheduler.h>
 
 int main(void) {
@@ -20,6 +21,7 @@ int main(void) {
   test_run_next();
   test_tick();
   test_check_awaken();
+  test_switch();
 
   delete(ready_qu);
   delete(timed_qu);
@@ -128,4 +130,27 @@ void test_check_awaken() {
   assert(check_awaken() == 1);
   global_clock = 11;
   assert(check_awaken() == 0);
+}
+
+void test_switch() {
+  puts("testing void done(int command)");
+  pid = 222;
+  done('A');
+  assert(ready_qu->tail->pid == 222);
+  running_process = 56;
+  done('T');
+  assert(ready_qu->head->pid == 56 && running_process == 222);
+  io_list[0] = 0;
+  done('S');
+  assert(io_list[0] == 222 && running_process == 56);
+  done('I');
+  assert(io_list[0] == 0 && ready_qu->tail->pid == 222);
+  time = 9;
+  done('W');
+  assert(timed_qu->tail->target_time == 21 && timed_qu->tail->pid == 56);
+  assert(running_process == 222);
+  pid = 85;
+  done('K');
+  assert(timed_qu->head->pid == 392);
+  done('E');
 }
